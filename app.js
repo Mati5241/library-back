@@ -4,6 +4,8 @@ import flash from 'express-flash';
 import {registerRouter} from "./routes/register.js";
 import {loginRouter} from "./routes/login.js";
 import session from 'express-session';
+import {homeRouter} from "./routes/home.js";
+import {logoutRouter} from "./routes/logout.js";
 
 
 const app = express();
@@ -35,55 +37,10 @@ app.get('/',(req,res) => {
 })
 
 
-app.get('/home',(req,res) => {
-
-    if(req.session.loggedIn)
-    {
-        // res.setHeader('Content-Type','text/html')
-        // res.write('Welcome '+req.session.username+' to your dashboard')
-        // res.write('<a href="/logout">Logout</a>')
-        // res.end()
-        res.render('home')
-    }
-    else
-        res.redirect('/login')
-})
+app.get('/home', homeRouter)
 
 
-
-// app.post('/authenticate',
-//     bodyParser.urlencoded(),
-//     (req,res,next) => {
-//
-// // Actual implementation would check values in a database
-//         if(req.body.username=='foo'&&req.body.password=='bar')
-//         {
-//             res.locals.username = req.body.username
-//             next()
-//         }
-//         else
-//             res.sendStatus(401)
-//     }
-//     ,(req,res)=>
-//     {
-//         req.session.loggedIn = true
-//         req.session.username = res.locals.username
-//         console.log(req.session)
-//         res.redirect('/home')
-//     })
-
-
-
-app.get('/logout',(req,res) => { //todo raczej to przerobic na post
-
-    req.session.destroy((err)=>{})
-    res.redirect('/login')
-
-})
-
-
-
-
+app.get('/logout', logoutRouter)
 
 app.get('/register', registerRouter);
 
