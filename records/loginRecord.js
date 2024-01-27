@@ -12,16 +12,19 @@ export class LoginRecord {
 
     async checkAccount() {
 
-        const [results] = await pool.execute('SELECT * FROM `admin` WHERE `login` = :login;', {
+        const [results] = await pool.execute('SELECT * FROM `users` WHERE `login` = :login;', {
                 login: this.login,
             }
         );
 
-        if (results.length > 0) {
-            return results[0].password
-        } else {
-            return '1'
-        }
+        return await results[0]
+
+
+        // if (results.length > 0) {
+        //     return results[0].password
+        // } else {
+        //     return '1'
+        // }
     }
 
 }

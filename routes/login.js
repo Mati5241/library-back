@@ -1,58 +1,51 @@
-import * as express from 'express';
+import express from 'express';
 import {compare} from 'bcrypt';
 import {LoginRecord} from "../records/loginRecord.js";
 import bodyParser from "body-parser";
+import jwt from 'jsonwebtoken';
+
 
 export const loginRouter = express.Router();
 
-
 loginRouter
-
     .get('/login', (req, res) => {
-
         if (req.session.loggedIn) {
-            res.redirect('/home')
+            res.redirect('/home');
         } else {
-            res.render('login')
+            res.render('login');
         }
     })
-
 
     .post('/login',
         bodyParser.urlencoded(),
         async (req, res, next) => {
-
-
             const user = {
                 login: req.body.login,
                 password: req.body.password,
             }
 
             const loginUser = new LoginRecord(user);
-            await loginUser.checkAccount();
+            const userFromDataBase = await loginUser.checkAccount();
 
 
-            const passwordFromDataBase = await loginUser.checkAccount()
 
-            compare(req.body.password, passwordFromDataBase, (err, result) => {
+            compare(req.body.password, userFromDataBase.password, (err, response) => {
                 if (err) {
-                    // Obsługa błędu
+                    res.json({auth: false, message: "no user exists"})
+                    console.log('nie dziala')
                     console.error(err);
-                    res.sendStatus(500); // Internal Server Error
-                } else if (result) {
-                    // Hasła są zgodne
-                    req.session.loggedIn = true;
-                    req.session.username = req.body.login;
-                    console.log(req.session);
-                    res.redirect('/home');
+                    res.sendStatus(500);
+                } else if (response) {
+                    const token = jwt.sign({ login: req.body.login }, 'tajnySekret', { // todo zmienic sekret
+                        expiresIn: 1000,
+                    })
+
+                    console.log(token)
+
+                    res.json({auth: true, token: token, login: userFromDataBase.login, id: userFromDataBase.id, status: userFromDataBase.status})
                 } else {
-                    // Hasła nie pasują
-                    res.sendStatus(401); // Unauthorized
+                    console.log('nie dziala')
+                    res.json({auth: false, message: "no user exists"})
                 }
             });
-
-
-        })
-
-
-
+        });

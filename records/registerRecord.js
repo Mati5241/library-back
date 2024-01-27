@@ -16,7 +16,7 @@ export class RegisterRecord {
 
     async register() {
 
-        const [results] = await pool.execute('SELECT * FROM `admin`;');
+        const [results] = await pool.execute('SELECT * FROM `users`;');
 
         const allLogins = [];
 
@@ -27,7 +27,7 @@ export class RegisterRecord {
         const isLoginFree = !allLogins.includes(this.login)
 
         if (isLoginFree) {
-            await pool.execute('INSERT INTO `admin` VALUES(:id, :login, :name, :password)', {
+            await pool.execute('INSERT INTO `users` VALUES(:id, :login, :name, :password)', {
                 id: this.id,
                 login: this.login,
                 name: this.name,
