@@ -9,7 +9,7 @@ This repository contains the source code for a virtual library management system
 1. **Clone the repository:**
 
     ```bash
-    git clone <repository-url>
+    git clone https://github.com/Mati5241/library-back
     ```
 
 2. **Install dependencies:**
