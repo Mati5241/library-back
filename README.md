@@ -31,32 +31,6 @@ This repository contains the source code for a virtual library management system
 
 5. The API will be accessible at [http://localhost:3001](http://localhost:3001)
 
-## Authentication
-
-- **POST** `/register`: Register a new user.
-- **POST** `/login`: Log in a user.
-
-### Administrator Authentication
-
-- **POST** `/admin/register`: Register a new administrator.
-- **POST** `/admin/login`: Log in an administrator.
-
-## Book Management (Administrator Only)
-
-- **POST** `/admin/addbook`: Add a new book to the library.
-- **DELETE** `/admin/deletebook/:id`: Delete a book from the library.
-- **PUT** `/admin/editbook/:id`: Edit details of a specific book in the library.
-
-## Book Display
-
-- **GET** `/books`: Get a list of all books in the library.
-- **GET** `/availablebooks`: Get a list of available books for borrowing.
-
-## User Operations
-
-- **POST** `/borrow/:id`: Borrow a book.
-- **POST** `/return/:id`: Return a borrowed book.
-
 ## Middleware
 
 - **verifyUserJWT**: Verify JWT token for regular user authentication.
