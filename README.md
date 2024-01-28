@@ -31,31 +31,9 @@ This repository contains the source code for a virtual library management system
 
 5. The API will be accessible at [http://localhost:3001](http://localhost:3001)
 
-## Middleware
-
-- **verifyUserJWT**: Verify JWT token for regular user authentication.
-- **verifyAdminJWT**: Verify JWT token for administrator authentication.
-
-## Database Models
-
-- **User**: Model for regular user registration and authentication.
-- **Admin**: Model for administrator registration and authentication.
-- **Book**: Model for book-related operations.
-
 ## Technologies Used
 
 - Node.js
 - Express.js
 - MySQL (or your preferred relational database)
 - JWT for authentication
-
-## Notes
-
-- Regular users and administrators have separate authentication endpoints.
-- Regular users cannot perform administrator actions, and vice versa.
-- Books that are borrowed cannot be borrowed again until returned.
-- Feel free to choose your preferred backend technology, database, and additional libraries for this implementation.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
