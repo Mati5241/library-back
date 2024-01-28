@@ -1,1 +1,1 @@
-export const jwt_secret = 'tajnysekret'
+export const jwt_secret = '' // tutaj podaj jwt secret
