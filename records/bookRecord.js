@@ -40,15 +40,4 @@ export class BookRecord {
         });
     }
 
-
-    static async edit(id) {
-
-        // await pool.execute('UPDATE `users_books` SET `userId` = :userId,`bookId` = :bookId');
-        await pool.execute('INSERT INTO `users_books`(`userId`, `bookId`) VALUES (:userId, :bookId)', {
-            userId,
-            bookId,
-        });
-    }
-
-
 }

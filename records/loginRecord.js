@@ -19,12 +19,6 @@ export class LoginRecord {
 
         return await results[0]
 
-
-        // if (results.length > 0) {
-        //     return results[0].password
-        // } else {
-        //     return '1'
-        // }
     }
 
 }

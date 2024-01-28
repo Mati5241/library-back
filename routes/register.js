@@ -2,7 +2,6 @@ import * as express from 'express';
 import {hash} from 'bcrypt';
 import {v4 as uuid} from 'uuid';
 import {RegisterRecord} from "../records/registerRecord.js";
-import {loginRouter} from "./login.js";
 import {LoginRecord} from "../records/loginRecord.js";
 
 export const registerRouter = express.Router();

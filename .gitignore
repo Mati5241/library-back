@@ -1,1 +1,2 @@
-config.ts
+config.js
+jwt_secret.js

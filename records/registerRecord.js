@@ -26,23 +26,4 @@ export class RegisterRecord {
     }
 
 
-
-    // static async show(day) {
-    //     const [results] = await pool.execute('SELECT * FROM `schedule` WHERE `date` = :day ORDER BY `start`;', {
-    //             day,
-    //         }
-    //     );
-    //
-    //     return results;
-    //
-    // }
-    //
-    //
-    // static async delete(id) {
-    //
-    //     await pool.execute('DELETE FROM `schedule` WHERE `id` = :id', {
-    //         id,
-    //     });
-    // }
-
 }

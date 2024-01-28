@@ -1,5 +1,4 @@
 import {pool} from '../utils/db.js';
-import {v4 as uuid} from 'uuid';
 
 
 export class UsersBooksRecord {

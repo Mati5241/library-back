@@ -1,14 +1,13 @@
 import express from 'express';
 import cors from 'cors';
-// import flash from 'express-flash';
 import { registerRouter } from "./routes/register.js";
 import { loginRouter } from "./routes/login.js";
-import { homeRouter } from "./routes/home.js";
 import { logoutRouter } from "./routes/logout.js";
 import bodyParser from "body-parser";
 import jwt from 'jsonwebtoken';
 import {bookRouter} from "./routes/book.js";
 import {deleteRouter} from "./routes/delete.js";
+import {jwt_secret} from "./config/jwt_secret.js";
 
 
 
@@ -21,19 +20,12 @@ app.use(cors({
     credentials: true,
 }));
 
-// app.use(flash());
 
 app.use(express.json());
 
 app.use(bodyParser.json());
 
 app.set('view engine', 'ejs');
-
-// app.use(session({
-//     secret: 'Keep it secret',
-//     name: 'uniqueSessionID',
-//     saveUninitialized: false
-// }));
 
 
 const verifyJWT = (req, res, next) => {
@@ -42,7 +34,7 @@ const verifyJWT = (req, res, next) => {
     if (!token) {
        res.send('There is no token')
     } else {
-        jwt.verify(token, 'tajnySekret', (err, decoded) => { //todo zmienic sekret
+        jwt.verify(token, jwt_secret, (err, decoded) => {
             if (err) {
                 res.json({auth: false, message: 'You failed to authenticate'})
             } else {
@@ -71,19 +63,17 @@ const authenticateToken = (req, res, next) => {
     }
 };
 
-app.get('/isUserAuth', verifyJWT, (req, res) => {
-    res.send('You are authenticate');
-})
-
-app.get('/', (req, res) => {
-    if (req.session.loggedIn) {
-        res.redirect('/home');
-    } else {
-        res.redirect('/login');
-    }
-});
-
-app.get('/home', authenticateToken, homeRouter);
+// app.get('/isUserAuth', verifyJWT, (req, res) => {
+//     res.send('You are authenticate');
+// })
+//
+// app.get('/', (req, res) => {
+//     if (req.session.loggedIn) {
+//         res.redirect('/home');
+//     } else {
+//         res.redirect('/login');
+//     }
+// });
 
 app.get('/logout', authenticateToken, logoutRouter);
 
