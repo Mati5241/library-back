@@ -13,11 +13,12 @@ export class BookRecord {
 
     async insert() {
 
-        await pool.execute('INSERT INTO `books` VALUES(:id, :name, :ISBN, :autor)', {
+        await pool.execute('INSERT INTO `books` VALUES(:id, :name, :ISBN, :autor, :borrow)', {
             id: this.id,
             name: this.title,
             ISBN: this.isbn,
             autor: this.autor,
+            borrow: 'Nie'
         })
         return this.id;
     }

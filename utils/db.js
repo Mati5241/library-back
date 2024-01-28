@@ -12,7 +12,7 @@ export const pool = mysql.createPool({
 
 });
 
-
+//todo zmienic to przed wyslaniem na serwer
 
 
 // import {createPool} from "mysql2/promise";

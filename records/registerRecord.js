@@ -9,34 +9,20 @@ export class RegisterRecord {
         this.login = obj.login;
         this.name = obj.name;
         this.password = obj.password;
+        this.status = obj.status;
 
 
     }
 
 
     async register() {
-
-        const [results] = await pool.execute('SELECT * FROM `users`;');
-
-        const allLogins = [];
-
-        results.map(item => {
-            allLogins.push(item.login)
-        })
-
-        const isLoginFree = !allLogins.includes(this.login)
-
-        if (isLoginFree) {
-            await pool.execute('INSERT INTO `users` VALUES(:id, :login, :name, :password)', {
-                id: this.id,
-                login: this.login,
-                name: this.name,
-                password: this.password,
-            })
-        } else {
-            console.log('Taki login już istnieje')
-        }
-
+        await pool.execute('INSERT INTO `users`(`id`, `login`, `name`, `password`, `status`) VALUES (:id, :login, :name, :password, :status)', {
+            id: this.id,
+            login: this.login,
+            name: this.name,
+            password: this.password,
+            status: this.status,
+        });
     }
 
 
