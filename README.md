@@ -35,5 +35,5 @@ This repository contains the source code for a virtual library management system
 
 - Node.js
 - Express.js
-- MySQL (or your preferred relational database)
+- MySQL
 - JWT for authentication
