@@ -45,8 +45,6 @@ const verifyJWT = (req, res, next) => {
     }
 }
 
-
-// Middleware do weryfikacji tokena JWT
 const authenticateToken = (req, res, next) => {
     const token = req.cookies.accessToken;
 
@@ -63,17 +61,6 @@ const authenticateToken = (req, res, next) => {
     }
 };
 
-// app.get('/isUserAuth', verifyJWT, (req, res) => {
-//     res.send('You are authenticate');
-// })
-//
-// app.get('/', (req, res) => {
-//     if (req.session.loggedIn) {
-//         res.redirect('/home');
-//     } else {
-//         res.redirect('/login');
-//     }
-// });
 
 app.get('/logout', authenticateToken, logoutRouter);
 
