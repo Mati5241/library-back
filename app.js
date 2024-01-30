@@ -4,10 +4,8 @@ import { registerRouter } from "./routes/register.js";
 import { loginRouter } from "./routes/login.js";
 import { logoutRouter } from "./routes/logout.js";
 import bodyParser from "body-parser";
-import jwt from 'jsonwebtoken';
 import {bookRouter} from "./routes/book.js";
 import {deleteRouter} from "./routes/delete.js";
-import {jwt_secret} from "./config/jwt_secret.js";
 
 
 
@@ -20,49 +18,12 @@ app.use(cors({
     credentials: true,
 }));
 
-
 app.use(express.json());
 
 app.use(bodyParser.json());
 
-app.set('view engine', 'ejs');
 
-
-const verifyJWT = (req, res, next) => {
-    const token = req.headers["x-acces-token"]
-
-    if (!token) {
-       res.send('There is no token')
-    } else {
-        jwt.verify(token, jwt_secret, (err, decoded) => {
-            if (err) {
-                res.json({auth: false, message: 'You failed to authenticate'})
-            } else {
-                req.userID = decoded.id;
-                next();
-            }
-        })
-    }
-}
-
-const authenticateToken = (req, res, next) => {
-    const token = req.cookies.accessToken;
-
-    if (!token) {
-        return res.status(401).json({ message: 'Brak autoryzacji' });
-    }
-
-    try {
-        const user = jwt.verify(token, JWT_SECRET);
-        req.user = user;
-        next();
-    } catch (error) {
-        res.status(403).json({ message: 'Nieprawidłowy token' });
-    }
-};
-
-
-app.get('/logout', authenticateToken, logoutRouter);
+app.get('/logout', logoutRouter);
 
 app.get('/register', registerRouter);
 

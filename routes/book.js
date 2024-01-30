@@ -2,6 +2,22 @@ import * as express from 'express';
 import {BookRecord} from "../records/bookRecord.js";
 import {UsersBooksRecord} from "../records/usersBooksRecord.js";
 import {MyBooksRecord} from "../records/myBooksRecord.js";
+import jwt from "jsonwebtoken";
+import {JWT_SECRET} from "../config/JWT_SECRET.js";
+
+
+const authenticateToken = (req, res, next) => {
+    const token = req.body.userToken || req.query.userToken || req.headers['authorization'];
+
+    if (!token) return res.sendStatus(401);
+
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403);
+
+        req.user = user;
+        next();
+    });
+};
 
 
 export const bookRouter = express.Router();
@@ -39,11 +55,13 @@ bookRouter
     })
 
 
-    .post('/borrow', async (req, res) => {
+    .post('/borrow', authenticateToken, async (req, res) => {
+
+        const userIdFromToken = req.user.id;
 
         try {
             const newUserBook = new UsersBooksRecord({
-                userId: req.body.userId,
+                userId: userIdFromToken,
                 bookId: req.body.bookId,
             });
             await newUserBook.borrow();

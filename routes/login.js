@@ -3,14 +3,14 @@ import {compare} from 'bcrypt';
 import {LoginRecord} from "../records/loginRecord.js";
 import bodyParser from "body-parser";
 import jwt from 'jsonwebtoken';
-import {jwt_secret} from "../config/jwt_secret.js";
+import {JWT_SECRET} from "../config/JWT_SECRET.js";
 
 
 export const loginRouter = express.Router();
 
 loginRouter
 
-    .post('/login', bodyParser.urlencoded(), async (req, res, next) => {
+    .post('/login', bodyParser.urlencoded(), async (req, res) => {
         try {
             const user = {
                 login: req.body.login,
@@ -30,7 +30,7 @@ loginRouter
                     console.error(err);
                     res.sendStatus(500);
                 } else if (response) {
-                    const token = jwt.sign({login: req.body.login}, jwt_secret, {
+                    const token = jwt.sign({login: req.body.login, id: userFromDataBase.id}, JWT_SECRET, {
                         expiresIn: 1000,
                     });
 
