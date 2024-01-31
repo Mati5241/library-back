@@ -31,7 +31,7 @@ loginRouter
                     res.sendStatus(500);
                 } else if (response) {
                     const token = jwt.sign({login: req.body.login, id: userFromDataBase.id}, JWT_SECRET, {
-                        expiresIn: 1000,
+                        expiresIn: 100000,
                     });
 
                     res.json({

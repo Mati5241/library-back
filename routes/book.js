@@ -6,18 +6,6 @@ import jwt from "jsonwebtoken";
 import {JWT_SECRET} from "../config/JWT_SECRET.js";
 
 
-const authenticateToken = (req, res, next) => {
-    const token = req.body.userToken || req.query.userToken || req.headers['authorization'];
-
-    if (!token) return res.sendStatus(401);
-
-    jwt.verify(token, JWT_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403);
-
-        req.user = user;
-        next();
-    });
-};
 
 
 export const bookRouter = express.Router();
@@ -55,14 +43,18 @@ bookRouter
     })
 
 
-    .post('/borrow', authenticateToken, async (req, res) => {
+    .post('/borrow', async (req, res) => {
 
-        const userIdFromToken = req.user.id;
+        const token = req.header('Authorization');
+        const bookId = req.body.bookId;
+
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const userId = decoded.id;
 
         try {
             const newUserBook = new UsersBooksRecord({
-                userId: userIdFromToken,
-                bookId: req.body.bookId,
+                userId,
+                bookId,
             });
             await newUserBook.borrow();
             res.end();
@@ -70,7 +62,6 @@ bookRouter
             console.error(error);
             res.status(500).send('Internal Server Error');
         }
-
 
     })
 
